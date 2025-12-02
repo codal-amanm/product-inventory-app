@@ -2,7 +2,7 @@
 
 client_id = "e9531a7e22b3a2235f6bbe2d9ee28ff3"
 name = "product-badge-indicator"
-application_url = "https://example.com"
+application_url = "https://product-inventory-app-five.vercel.app"
 embedded = true
 
 [build]
