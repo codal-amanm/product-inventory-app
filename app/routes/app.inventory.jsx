@@ -150,6 +150,8 @@ export default function InventoryDashboard() {
                         <input type="hidden" name="locationId" value={locationId} />
                         <input type="hidden" name="currentQty" value={v.qty ?? 0} />
                         <s-number-field
+                          labelAccessibilityVisibility="exclusive"
+                          label="Quantity"
                           name="quantity"
                           value={v.qty ?? 0}
                           step={1}
@@ -198,7 +200,7 @@ export async function action({ request }) {
 
     console.log("Updating:", { formData, variantId, itemId, qty, currentQty, delta });
 
-    // Use inventoryAdjustQuantities mutation
+
     const mutation = `#graphql
       mutation inventoryAdjustQuantities($input: InventoryAdjustQuantitiesInput!) {
         inventoryAdjustQuantities(input: $input) {

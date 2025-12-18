@@ -32,3 +32,27 @@ model Session {
   collaborator  Boolean?  @default(false)
   emailVerified Boolean?  @default(false)
 }
+
+
+model Shop {
+  id            String    @id
+  shop          String
+  accessToken   String?
+}
+
+
+
+model Product {
+  id              String   @id @default(cuid())
+  shopifyProductId BigInt   @unique
+  shop            String
+  title           String
+  handle          String
+  vendor          String?
+  productType     String?
+  status          String
+  createdAt       DateTime
+  updatedAt       DateTime
+
+  createdAtDb     DateTime @default(now())
+}

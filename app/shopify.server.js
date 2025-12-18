@@ -4,6 +4,7 @@ import {
   AppDistribution,
   shopifyApp,
 } from "@shopify/shopify-app-react-router/server";
+import { DeliveryMethod } from "@shopify/shopify-api";
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
 import prisma from "./db.server";
 
@@ -15,7 +16,21 @@ const shopify = shopifyApp({
   appUrl: process.env.SHOPIFY_APP_URL || "",
   authPathPrefix: "/auth",
   sessionStorage: new PrismaSessionStorage(prisma),
-  distribution: AppDistribution.AppStore,
+  distribution: AppDistribution.Custom,
+  webhooks: {
+  PRODUCTS_CREATE: {
+    deliveryMethod: DeliveryMethod.Http,
+    callbackUrl: "/webhooks/products-create",
+  },
+  PRODUCTS_UPDATE: {
+  deliveryMethod: DeliveryMethod.Http,
+  callbackUrl: "/webhooks/products-update",
+},
+PRODUCTS_DELETE: {
+  deliveryMethod: DeliveryMethod.Http,
+  callbackUrl: "/webhooks/products-delete",
+},
+},
   ...(process.env.SHOP_CUSTOM_DOMAIN
     ? { customShopDomains: [process.env.SHOP_CUSTOM_DOMAIN] }
     : {}),
