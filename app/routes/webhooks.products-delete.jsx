@@ -4,11 +4,11 @@ import prisma from "../db.server";
 export const action = async ({ request }) => {
   const { payload } = await authenticate.webhook(request);
 
-  await prisma.product.delete({
-    where: {
-      shopifyProductId: BigInt(payload.id),
-    },
+  const productId = String(payload.id);
+
+  await prisma.product.deleteMany({
+    where: { shopifyProductId: productId },
   });
 
-  return new Response(null, { status: 200 });
+  return new Response("OK", { status: 200 });
 };

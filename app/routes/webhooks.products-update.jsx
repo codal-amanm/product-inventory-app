@@ -4,16 +4,25 @@ import prisma from "../db.server";
 export const action = async ({ request }) => {
   const { payload } = await authenticate.webhook(request);
 
-  await prisma.product.update({
-    where: {
-      shopifyProductId: BigInt(payload.id),
+  const productId = String(payload.id);
+
+  await prisma.product.upsert({
+    where: { shopifyProductId: productId },
+    update: {
+      ...(payload.title && { title: payload.title }),
+      ...(payload.status && { status: payload.status }),
+      updatedAt: new Date(),
     },
-    data: {
-      title: payload.title,
-      status: payload.status,
-      updatedAt: new Date(payload.updated_at),
+    create: {
+      shopifyProductId: productId,
+      title: payload.title ?? "",
+      status: payload.status ?? "active",
+      shop: payload.shop_domain ?? "",
+      handle: payload.handle ?? "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
 
-  return new Response(null, { status: 200 });
+  return new Response("OK", { status: 200 });
 };
