@@ -43,16 +43,16 @@ model Shop {
 
 
 model Product {
-  id              String   @id @default(cuid())
-  shopifyProductId BigInt   @unique
-  shop            String
-  title           String
-  handle          String
-  vendor          String?
-  productType     String?
-  status          String
-  createdAt       DateTime
-  updatedAt       DateTime
+  id               String   @id @default(cuid())
+  shopifyProductId String   @unique
+  shop             String
+  title            String
+  handle           String
+  vendor           String?
+  productType      String?
+  status           String
+  createdAt        DateTime
+  updatedAt        DateTime
 
-  createdAtDb     DateTime @default(now())
+  createdAtDb      DateTime @default(now())
 }

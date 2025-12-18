@@ -5,7 +5,7 @@ export const action = async ({ request }) => {
   const { payload, shop } = await authenticate.webhook(request);
 
   // Shopify product ID is a number → store as BigInt
-  const productId = BigInt(payload.id);
+  const productId = String(payload.id);
 
   await prisma.product.upsert({
     where: {
